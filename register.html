@@ -1,0 +1,114 @@
+<html> 
+    <head>
+        <title>Registration form</title>
+
+        <link rel="stylesheet" href="register.css">
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        
+    </head>       
+    <body>    
+        <section>
+            <div class="form-box">
+                <div class="form-value">
+                    <form action="" id="registerForm">
+                        <h2>Registration Form</h2>
+                        <div class="inputbox">
+                            <ion-icon name="person-outline"></ion-icon>
+                            <input name="name" type="name" required />
+                            <label for="">Full Name</label>
+                        </div>
+                        <div class="inputbox">
+                            <ion-icon name="person-outline"></ion-icon>
+                            <input name="gender" type="name" required />
+                            <label for="">Gender</label>
+                        </div>
+                        <div class="inputbox">
+                            <ion-icon name="mail-outline"></ion-icon>
+                            <input name="email" type="email" required />
+                            <label for="">Email</label>
+                        </div>
+                        <div class="inputbox">
+                            <ion-icon name="person-outline"></ion-icon>
+                            <input name="uname" type="name" required />
+                            <label for="">User Id</label>
+                        </div>
+                    <div class="inputbox">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input name="password" id="password" type="password" required />
+                        <label for="">Password</label>
+                        <p id="message">Password is <span id="strength"></span></p>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input name="cpassword" type="password" required />
+                        <label for="">Confirm Password</label>
+                    </div>
+                    
+                <button class="button">Submit</button>
+
+                <!--<div class="register">Already registered? <a href="login.html" id="login">Login</a></div>-->
+                </form>
+            </div>
+        </section> 
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script>
+            var pass=document.getElementById("password");
+            var msg=document.getElementById("message");
+            var str=document.getElementById("strength");
+
+            pass.addEventListener('input',() => {
+            if(pass.value.length > 0){
+                 msg.style.display="block";
+            }
+            else{
+                 msg.style.display="none";
+            }
+            if(pass.value.length < 4){
+                str.innerHTML="weak";
+            }
+            else if(pass.value.length >= 4 && pass.value.length<8){
+                str.innerHTML="medium";
+            }
+            else if(pass.value.length >=8 ){
+                str.innerHTML="strong";
+            }
+        })
+        </script>
+        <script>
+            let form = document.getElementById("registerForm")
+        form.addEventListener("submit",(e)=>{
+            e.preventDefault()
+            
+            const formData = new FormData(e.target)
+            let values = Object.fromEntries(formData.entries())
+            console.log(values)
+            let newData = []
+            let staleData = JSON.parse(localStorage.getItem('auth'))
+            if(staleData)  newData = [...staleData,{
+                    name:values.uname,
+                    email:values.email,
+                    password:values.password
+                }]
+            else newData = [...newData,{
+                    name:values.uname,
+                    email:values.email,
+                    password:values.password
+                }]
+                console.log(newData)
+            if(values.password === values.cpassword){
+               
+                localStorage.setItem('auth',JSON.stringify(newData))
+                alert("Successfully registered")
+                window.location.href = 'login.html'
+            }
+                
+            else alert("Password must match confirm password")
+        })
+        </script>
+    </body>
+</html>
